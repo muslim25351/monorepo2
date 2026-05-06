@@ -1,80 +1,106 @@
-# Turborepo Monorepo
+# TableFlow
 
-A monorepo setup using Turborepo and pnpm workspaces.
+A restaurant ordering system built with Turborepo, Next.js, and Express.
 
-## Structure
+## Monorepo Structure
 
 ```
+tableflow/
 ├── apps/
-│   ├── web/          # Next.js 14 (App Router, TypeScript)
-│   └── api/          # Express + TypeScript API
+│   ├── web/              # Next.js 14 frontend (App Router, TypeScript, Tailwind)
+│   └── api/              # Express REST API (TypeScript)
 ├── packages/
-│   ├── types/        # Shared TypeScript interfaces
-│   └── utils/        # Shared helper functions
-├── turbo.json        # Turborepo pipeline configuration
-└── pnpm-workspace.yaml
+│   ├── types/            # Shared TypeScript interfaces (MenuItem, Order, OrderItem)
+│   └── utils/            # Shared utility functions (formatPrice, calculateOrderTotal)
+├── turbo.json            # Turborepo pipeline configuration
+├── pnpm-workspace.yaml   # pnpm workspace configuration
+└── package.json          # Root package with dev/build/lint scripts
 ```
 
-## Getting Started
+## Prerequisites
 
-### Prerequisites
-
-- Node.js >= 18
-- pnpm >= 8
+- **Node.js** >= 18
+- **pnpm** >= 8
 
 Install pnpm if you haven't:
 ```bash
 npm install -g pnpm
 ```
 
-### Installation
+## Setup
 
-```bash
-pnpm install
-```
+1. **Install dependencies:**
+   ```bash
+   pnpm install
+   ```
 
-### Development
+2. **Set up environment variables (optional):**
+   ```bash
+   cp apps/api/.env.example apps/api/.env
+   cp apps/web/.env.local.example apps/web/.env.local
+   ```
 
-Run all apps in parallel:
+3. **Start development servers:**
+   ```bash
+   pnpm dev
+   ```
+
+## App URLs
+
+- **Web (Frontend)**: http://localhost:3000
+- **API (Backend)**: http://localhost:3001
+
+## Pages
+
+### Menu Page (`/`)
+- View all menu items grouped by category (Mains, Drinks)
+- Toggle item availability (Available/Unavailable)
+- Each item displays name, description, price, and availability status
+- Navigate to Orders page
+
+### Orders Page (`/orders`)
+- View all orders sorted by creation time (newest first)
+- Each order shows: Order ID, table number, items, total, and status
+- Advance order status through workflow: Pending → Preparing → Ready → Delivered
+- Navigate back to Menu
+
+## Development
+
+### Run all apps in parallel:
 ```bash
 pnpm dev
 ```
 
-This will start:
+This starts:
 - Next.js web app on http://localhost:3000
 - Express API on http://localhost:3001
 
-### Build
-
-Build all apps:
+### Build all apps:
 ```bash
 pnpm build
 ```
 
-### Lint
-
-Run linting across all packages:
+### Lint all packages:
 ```bash
 pnpm lint
 ```
 
 ## Packages
 
-### @repo/types
+### `@repo/types`
 Shared TypeScript interfaces:
-- `MenuItem` - Restaurant menu item
-- `Order` - Customer order
-- `OrderItem` - Individual order line item
+- `MenuItem` - Restaurant menu item with id, name, description, price, category, available
+- `Order` - Customer order with id, tableNumber, items, status, createdAt
+- `OrderItem` - Order line item with menuItemId, name, quantity, unitPrice
 
-### @repo/utils
+### `@repo/utils`
 Shared utility functions:
-- `formatPrice()` - Format price as currency
-- `calculateOrderTotal()` - Calculate order total
+- `formatPrice(price: number)` - Format price as currency string ($X.XX)
+- `calculateOrderTotal(items)` - Calculate total from order items
 
-## Apps
+## Technology Stack
 
-### web
-Next.js 14 application with App Router and TypeScript.
-
-### api
-Express API server with TypeScript support and hot reload via ts-node-dev.
+- **Monorepo**: Turborepo + pnpm workspaces
+- **Frontend**: Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS
+- **Backend**: Express, TypeScript, ts-node-dev
+- **Data**: In-memory storage (no database)
