@@ -5,7 +5,7 @@ import Link from 'next/link';
 import type { MenuItem } from '@repo/types';
 import { formatPrice } from '@repo/utils';
 
-const API_URL = 'http://localhost:3001';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 export default function MenuPage() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);

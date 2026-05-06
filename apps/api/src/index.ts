@@ -197,8 +197,9 @@ export default app;
 
 // Start server only if this file is run directly
 if (require.main === module) {
-  const PORT = process.env.PORT || 3001;
+  const PORT = Number(process.env.PORT) || 3001;
   app.listen(PORT, () => {
-    console.log(`API server running on http://localhost:${PORT}`);
+    console.log(`🚀 API server running on http://localhost:${PORT}`);
+    console.log(`📋 Health check: http://localhost:${PORT}/health`);
   });
 }

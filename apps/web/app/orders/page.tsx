@@ -5,7 +5,7 @@ import Link from 'next/link';
 import type { Order } from '@repo/types';
 import { formatPrice, calculateOrderTotal } from '@repo/utils';
 
-const API_URL = 'http://localhost:3001';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 const STATUS_CONFIG = {
   pending: { label: 'Pending', color: 'bg-gray-100 text-gray-800', next: 'preparing' },
